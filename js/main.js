@@ -59,9 +59,7 @@ intlTelInput(inputPhone, {
 		fetch('https://ipinfo.io/?token=b2072b6cafd734')
 		.then(response => {return response.ok ? response.json() : false})
 		.then(result => {
-			if(result) {
-				callback(result.country);
-			}
+			result ? callback(result.country) : '';
 		})
 	},
 	utilsScript: "./utils.js?1585994360633"
