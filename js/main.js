@@ -244,15 +244,16 @@ function formSubmit(event) {
 				popovers.forEach((item) => {
 					item.remove();
 				})
+
+				button.innerHTML = 'Отправить';
+				button.removeAttribute('disabled');
+				
 				// return response.json();
 				// return response.text();
 			}else{
 				toast('Произошла ошибка');
 			}
 		})
-		// .then(result => console.log(result))
-		button.innerHTML = 'Отправить';
-		button.removeAttribute('disabled');
 	}
 
 	event.preventDefault();
