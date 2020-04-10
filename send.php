@@ -19,7 +19,7 @@ if(count($_POST)) {
 				!preg_match("/^([+0-9()\- ]+)$/", $value) ? $error++ : "";
 				break;
 			case "address":
-				!preg_match("/^([a-zа-я0-9(),._:\- ]+)$/iu", $value) ? $error++ : "";
+				!preg_match("/^([a-zа-я0-9()\/,._:\- ]+)$/iu", $value) ? $error++ : "";
 				break;
 			case "captcha":
 				!preg_match("/^([0-9]+)$/", $value) || md5($value) != $_SESSION["randomnr2"] ? $error++ : "";

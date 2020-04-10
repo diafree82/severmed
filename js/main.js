@@ -6,17 +6,24 @@ const inputAddress = document.querySelector('#input-address');
 const inputCaptcha = document.querySelector('.input-captcha');
 const form = document.querySelector('[name="form"]');
 
+let regInputs = {
+	name: /^[-.|a-zA-Zа-яА-Я-]+$/,
+	phone: /^[-+()\. ;":'0-9]+$/,
+	address: /^[-/., a-zA-Zа-яА-Я0-9]+$/,
+	captcha: /^[0-9]+$/
+}
+
 inputName.addEventListener('keypress', (event) => {
-	inputReg(event.key, /^[-\.|a-zA-Zа-яА-Я-]+$/, 'Имя может содержать только буквы и дефис. Не более 25 символов.', inputName);
+	inputReg(event.key, regInputs.name, 'Имя может содержать только буквы и дефис. Не более 25 символов.', inputName);
 });
 inputPhone.addEventListener('keypress', (event) => {
-	inputReg(event.key, /^[-+()\. ;":'0-9]+$/, 'Телефон может содержать цифры, скобки, пробелы и дефис. Не более 25 символов. Обязательное поле.', inputPhone);
+	inputReg(event.key, regInputs.phone, 'Телефон может содержать цифры, скобки, пробелы и дефис. Не более 25 символов. Обязательное поле.', inputPhone);
 });
 inputAddress.addEventListener('keypress', (event) => {
-	inputReg(event.key, /^[-\., a-zA-Zа-яА-Я0-9]+$/, 'Поле не должно содержать спецсимволов. Обязательное поле.', inputAddress);
+	inputReg(event.key, regInputs.address, 'Поле не должно содержать спецсимволов. Обязательное поле.', inputAddress);
 });
 inputCaptcha.addEventListener('keypress', (event) => {
-	inputReg(event.key, /^[0-9]+$/, 'Поле может содержать только цифры. Обязательное поле.', inputCaptcha, 4);
+	inputReg(event.key, regInputs.captcha, 'Поле может содержать только цифры. Обязательное поле.', inputCaptcha, 4);
 });
 
 // get phone format
@@ -200,26 +207,26 @@ function formSubmit(event) {
 		let inputName = item.getAttribute('name');
 		switch(inputName) {
 			case 'name':
-				if(item.value != '' && !/^[-\.a-zA-Zа-яА-Я-]+$/.test(item.value) || item.value.length > 25) {
+				if(item.value != '' && !regInputs.name.test(item.value) || item.value.length > 25) {
 					console.log('sdf')
 					popopverInfo(item, 'Имя может содержать только буквы и дефис. Не более 25 символов.');
 					error++;
 				}
 				break;
 			case 'phone':
-				if(!maskComplete) {
+				if(!maskComplete || !regInputs.phone.test(item.value)) {
 					popopverInfo(item, 'Телефон может содержать цифры, скобки, пробелы и дефис. Не более 25 символов. Обязательное поле.');
 					error++;
 				};
 				break;
 			case 'address':
-				if(item.value == '' || !/^[-\., a-zA-Zа-яА-Я0-9]+$/.test(item.value)) {
+				if(item.value == '' || !regInputs.address.test(item.value)) {
 					popopverInfo(item, 'Поле не должно содержать спецсимволов. Обязательное поле.');
 					error++;
 				}
 				break;
 			case 'captcha':
-				if(item.value.length < 4 || !/^[0-9]+$/.test(item.value)) {
+				if(item.value.length < 4 || !regInputs.captcha.test(item.value)) {
 					popopverInfo(item, 'Поле может содержать только цифры. Обязательное поле.');
 					error++;
 				}
