@@ -264,6 +264,9 @@ function formSubmit(event) {
 				// return response.text();
 			}else{
 				toast('Произошла ошибка');
+
+				button.innerHTML = 'Отправить';
+				button.removeAttribute('disabled');
 			}
 		})
 	}
