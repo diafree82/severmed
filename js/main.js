@@ -81,71 +81,72 @@ function init() {
 	.then(response => {return response.ok ? response.json() : false})
 	.then(result => {
 		if(result) {
-				let loc = result.loc.split(',');
-				let myMap = new ymaps.Map('map', {
-			        center: loc,
-			        zoom: 12,
-			        controls: []
-			    });
+			let loc = result.loc.split(',');
+			let myMap = new ymaps.Map('map', {
+		        center: loc,
+		        zoom: 12,
+		        controls: []
+		    });
 
-				let myPlacemark;
+			let myPlacemark;
 
-				// entering address
-			    let suggestView1 = new ymaps.SuggestView('input-address');
-			    suggestView1.events.add('select', function(event) {
-			    	let address = event.originalEvent.item.value;
+			// entering address
+		    let suggestView1 = new ymaps.SuggestView('input-address');
+		    suggestView1.events.add('select', function(event) {
+		    	let address = event.originalEvent.item.value;
 
-			    	ymaps.geocode(address, {
-				        results: 1
-				    }).then(function (res) {
-			            let firstGeoObject = res.geoObjects.get(0);
-			            let coords = firstGeoObject.geometry.getCoordinates();
+		    	ymaps.geocode(address, {
+			        results: 1
+			    }).then(function (res) {
+		            let firstGeoObject = res.geoObjects.get(0);
+		            let coords = firstGeoObject.geometry.getCoordinates();
 
-			            createPlacemark(coords);
-			        });
-			    });
+		            createPlacemark(coords);
+		        });
+		    });
 
-			    // map click
-			    myMap.events.add('click', function (e) {
-				    let coords = e.get('coords');
-				    createPlacemark(coords, 'click');
-				});
+		    // map click
+		    myMap.events.add('click', function (e) {
+			    let coords = e.get('coords');
+			    createPlacemark(coords, 'click');
+			});
 
-			    // createPlacemark
-				function createPlacemark(coords, type) {
-				    if(myPlacemark) {
-				        myPlacemark.geometry.setCoordinates(coords);
-				    }else{
-				        myPlacemark = new ymaps.Placemark(coords, {
-					        iconCaption: 'Поиск...'
-					    }, {
-					        preset: 'islands#darkBlueDotIconWithCaption',
-					        draggable: true
-					    });;
-				        myMap.geoObjects.add(myPlacemark);
-				        myPlacemark.events.add('dragend', function () {
-				            getAddressMap(myPlacemark.geometry.getCoordinates());
-				        });
-				    }
-				    myMap.setCenter(coords, 12);
-				    getAddressMap(coords, type);
-				}
-
-			    function getAddressMap(coords, type) {
-			        myPlacemark.properties.set('iconCaption', 'поиск...');
-			        ymaps.geocode(coords).then(function (res) {
-			            let firstGeoObject = res.geoObjects.get(0);
-
-			            myPlacemark.properties.set({
-			                iconCaption: [
-			                    firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
-			                    firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
-			                ].filter(Boolean).join(', '),
-			                balloonContent: firstGeoObject.getAddressLine()
-			            });
-			            type == 'click' ? inputAddress.value = firstGeoObject.getAddressLine() : '';
+		    // createPlacemark
+			function createPlacemark(coords, type) {
+			    if(myPlacemark) {
+			        myPlacemark.geometry.setCoordinates(coords);
+			    }else{
+			        myPlacemark = new ymaps.Placemark(coords, {
+				        iconCaption: 'Поиск...'
+				    }, {
+				        preset: 'islands#darkBlueDotIconWithCaption',
+				        draggable: true
+				    });;
+			        myMap.geoObjects.add(myPlacemark);
+			        myPlacemark.events.add('dragend', function () {
+			            getAddressMap(myPlacemark.geometry.getCoordinates());
 			        });
 			    }
+			    myMap.setCenter(coords, 12);
+			    getAddressMap(coords, type);
+			}
+
+		    function getAddressMap(coords, type) {
+		        myPlacemark.properties.set('iconCaption', 'поиск...');
+		        ymaps.geocode(coords).then(function (res) {
+		            let firstGeoObject = res.geoObjects.get(0);
+
+		            myPlacemark.properties.set({
+		                iconCaption: [
+		                    firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+		                    firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+		                ].filter(Boolean).join(', '),
+		                balloonContent: firstGeoObject.getAddressLine()
+		            });
+		            type == 'click' ? inputAddress.value = firstGeoObject.getAddressLine() : '';
+		            popopverInfo(inputAddress, '', true);
+		        });
+		    }
 		}
 	})
 }
