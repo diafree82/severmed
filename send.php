@@ -26,7 +26,7 @@ if(count($_POST)) {
 				break;
 		}
 
-		$error > 0 ? headerError("Error value") : "";
+		$error ? headerError("Error value") : "";
 
 		$_POST[$key] = addslashes($value);
 	}
