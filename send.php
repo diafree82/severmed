@@ -13,13 +13,13 @@ if(count($_POST)) {
 
 		switch ($key) {
 			case "name":
-				!preg_match("/^([a-zа-я.\-]+)$/iu", $value) && $value != "" ? $error++ : "";
+				!preg_match("/^([a-zа-яё.\-]+)$/iu", $value) && $value != "" ? $error++ : "";
 				break;			
 			case "phone":
 				!preg_match("/^([+0-9()\- ]+)$/", $value) ? $error++ : "";
 				break;
 			case "address":
-				!preg_match("/^([a-zа-я0-9()\/,._:\- ]+)$/iu", $value) ? $error++ : "";
+				!preg_match("/^([a-zа-яё0-9()\/,._:\- ]+)$/iu", $value) ? $error++ : "";
 				break;
 			case "captcha":
 				!preg_match("/^([0-9]+)$/", $value) || md5($value) != $_SESSION["randomnr2"] ? $error++ : "";

@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 const inputName = document.querySelector('.input-name');
 const inputPhone = document.querySelector('.input-phone');
@@ -7,9 +7,9 @@ const inputCaptcha = document.querySelector('.input-captcha');
 const form = document.querySelector('[name="form"]');
 
 let regInputs = {
-	name: /^[-.|a-zA-Zа-яА-Я-]+$/,
+	name: /^[-.|a-zA-Zа-яёА-ЯЁ-]+$/,
 	phone: /^[-+()\. ;":'0-9]+$/,
-	address: /^[-/., a-zA-Zа-яА-Я0-9]+$/,
+	address: /^[-/., a-zA-Zа-яёА-ЯЁ0-9]+$/,
 	captcha: /^[0-9]+$/
 }
 
