@@ -209,7 +209,6 @@ function formSubmit(event) {
 		switch(inputName) {
 			case 'name':
 				if(item.value != '' && !regInputs.name.test(item.value) || item.value.length > 25) {
-					console.log('sdf')
 					popopverInfo(item, 'Имя может содержать только буквы и дефис. Не более 25 символов.');
 					error++;
 				}
